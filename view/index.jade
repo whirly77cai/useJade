@@ -1,0 +1,71 @@
+doctype html
+html
+	head
+		title how to use jade?
+		meta(charset="utf-8")
+		script.
+			console.log("Welcome to join wan")
+			console.log("We want you");
+	body
+		p#info Welcome to join wan, we want <b>you</b>
+		//以（）来分割属性
+		//- 这是句不输出的注释
+		a(target="_blank", href="http://www.baidu.com") 招聘
+		hr
+		//- 不会被缓冲的代码
+		
+		- for(var i=0; i<4; i++)
+			li 第#{i}个Li
+		//- 数组的使用
+		- var jobs =["a","b","c","d"]
+		each job in jobs
+			li= job
+		//- 对象的使用
+		- var jobs1 = {"catagory" : "fe", "company" : "wandoujia", "local" : "beijing"}
+		each val,key in jobs1
+			li=	key+' : '+val
+		hr
+		p mixins
+		//- mixin混合宏的定义
+		mixin list
+			ul
+				li foo
+				li bar
+				li baz
+		//- 使用
+		+list
+		+list
+
+		mixin pet(name)
+			li= name
+		ul
+			+pet('cat')
+			+pet('dog')
+			+pet('pig')
+
+		//- 使用...标识符表示不定数量的参数
+		mixin ls(id, ...items)
+			ul(id=id)
+				each item in items
+					li= item
+		+list('mylist', 1, 2, 3, 4)
+
+		//- 有时候，我们需要替换混合宏的某个部分，那么就可以使用 block 标识符来占位：
+		mixin article(title)
+			.article
+				.article-warp
+					h1= title
+					if block
+						block
+					else
+						p No block provided
+		+article('mixin,mixin')
+			p This my block
+		- var theGreat = "<span>escape!</span>";
+		p This will be safe: #{theGreat}
+		- var theGreat = "<span>escape!</span>";
+		p This will be safe: !{theGreat}
+
+
+
+
